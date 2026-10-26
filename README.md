@@ -6,8 +6,6 @@ Live demo: **<add your Render URL here>**
 
 AP Master adapts the structure of an existing Chinese mobile learning app into an English product for students preparing for AP exams worldwide. I used the original screens and Figma specs as a reference for the architecture, then redesigned the flows, copy and details for an international audience.
 
-> This is a portfolio project. See [Scope and limitations](#scope-and-limitations) for what is real and what is placeholder.
-
 ## What it does
 
 The app has three main flows.
