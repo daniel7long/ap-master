@@ -1,93 +1,62 @@
-# AP Master
+# AP Master — AP Exam Practice
 
-**An English-language web app that helps AP® exam students practice, learn and review their mistakes.**
+[![Live demo](https://img.shields.io/badge/Live%20demo-ap--master.onrender.com-2BBEC7?style=for-the-badge)](https://ap-master.onrender.com)
 
-Live demo: **<add your Render URL here>**
+AP Master is a mobile-first web app that helps students around the world prepare for **Advanced Placement** exams. It brings structured practice, trial courses and a personal study hub together in one calm, teal-themed experience.
 
-AP Master adapts the structure of an existing Chinese mobile learning app into an English product for students preparing for AP exams worldwide. I used the original screens and Figma specs as a reference for the architecture, then redesigned the flows, copy and details for an international audience.
+It is an English-language web adaptation of an existing mobile product: the information architecture and visual language were carried over, then re-designed and rebuilt for the web.
 
-> This is a portfolio project. See [Scope and limitations](#scope-and-limitations) for what is real and what is placeholder.
+<!-- Add 3–4 screenshots here, e.g.:
+<p align="center"><img src="docs/screenshots/practice.png" width="22%"> <img src="docs/screenshots/courses.png" width="22%"> <img src="docs/screenshots/hub.png" width="22%"></p>
+-->
 
-## What it does
+| | |
+| --- | --- |
+| **Live demo** | <https://ap-master.onrender.com> |
+| **Type** | Mobile-first web app |
+| **Audience** | AP students worldwide |
+| **Source** | <https://github.com/daniel7long/ap-master> |
 
-The app has three main flows.
+---
 
-**1. Practice**
-- 27 AP subjects across English, Math & CS, Sciences, World Languages, History & Social Science and Arts. Related subjects such as Calculus AB/BC and Microeconomics/Macroeconomics are grouped, and each has its own tests.
-- 20 practice tests per subject, listed as "Practice Test 1–20" rather than by unit.
-- A timed quiz with a question navigator, flag-for-review, keyboard shortcuts (1–4, ← →), and auto-save so a student can leave and resume.
-- A test report with score, time, performance by topic, and a review of every question with explanations. The report can be downloaded as a PDF.
+## Three flows
 
-**2. Courses**
-- A tutoring course for every subject, with 3 free trial lessons (10–15 min each).
-- Each lesson shows its course contents table and the tutor's introduction.
-- "Unlock this course" opens a contact form to reach a consultant.
+### 1. Practice
+- **20 practice sets for every AP subject**, including each subject's branches.
 
-**3. My Hub (profile and dashboard)**
-- Practice records grouped by subject.
-- An Errors Bank: every missed question is saved, grouped by subject, and can be reviewed with its explanation.
-- Custom practice sets built from past mistakes, and a retry mode where answering a question correctly clears it from the bank.
-- Data export (JSON backup) and reset.
+### 2. Courses
+- **Three trial lessons** so students can try a course before committing.
+- A clear next step to **contact a consultant** for the full programme.
 
-## Design decisions
+### 3. Profile hub
+- **Records** of past practice.
+- **Errors Bank:** a collection of the questions you got wrong, ready to revisit.
+- **Custom practice:** build your own practice sessions.
 
-- **Feedback after, not during.** Tests run like the real exam. Explanations appear in the report, so students don't get the answer by clicking.
-- **Mistakes are the core loop.** A wrong answer is saved automatically and turns into later practice, so the student doesn't have to build a review list by hand.
-- **Resume anywhere.** Progress is saved on every answer, since students study in short sessions.
-- **Responsive.** A bottom tab bar on phones and a sidebar on desktop, with a focused full-screen layout during quizzes.
-- **Accessible basics.** Real buttons and labels, radio semantics on answer options, visible focus states, dialogs that close with Esc.
-- **Visual language.** Teal gradient and soft cards carried over from the original Figma tokens, with an English-first type setup.
+## Design and UX highlights
+
+- **Teal visual identity** (`#2BBEC7`) applied consistently, down to the browser theme colour.
+- **Mobile-first and safe-area aware:** the page uses `viewport-fit=cover` so content can extend to the screen edges on notched phones.
+- **English UI for a global audience,** adapted from an existing product's screens and Figma styles.
+- **Mistakes become a feature.** The Errors Bank turns wrong answers into study material.
 
 ## Tech stack
 
-| Area | Choice |
-|---|---|
-| Framework | React 18 + TypeScript |
-| Build tool | Vite |
-| Routing | React Router (hash routing, so it works on any static host) |
-| State | A small custom store on `useSyncExternalStore`, persisted to `localStorage` |
-| Styling | Plain CSS with design tokens, no UI library |
-| Hosting | Render (static site) |
+| Layer | Technology |
+| --- | --- |
+| Front end | Responsive, mobile-first web app |
+| Hosting | **Render** Static Site |
+| Source control | **Git / GitHub** |
+| Design | Figma-derived screens and CSS from the original mobile product |
 
-There is no backend. The app is local-first, and a student's data stays in their own browser.
+<!-- TODO(stack): add the framework, language, routing and state libraries (check package.json). -->
 
-## Run it locally
+## Engineering highlights
 
-```bash
-npm install
-npm run dev          # start the dev server
-npm run build        # type-check and build to dist/
-npm run check:content  # verify the question bank (27 subjects × 20 tests)
-```
+- **Static-site deployment.** The app is built and served as static assets from Render, so there is no server to maintain.
+- **Git-based workflow.** Code lives on GitHub and is deployed to Render from the repository.
+- **Three clearly separated flows** (Practice, Courses and Profile hub) share one visual system.
 
-## Project structure
+---
 
-```
-src/
-  data/       subjects, question pools, bank builder, courses
-  pages/      Practice, Quiz, Report, Courses, Profile
-  store.ts    persisted app state
-  ui.tsx      shared components
-  styles.css  tokens and layout
-scripts/
-  check.ts    content integrity check
-```
-
-Question pools are plain TypeScript arrays. Each question has a topic, stem, four options, a correct answer and an explanation. Option order is shuffled deterministically, so a given question always looks the same.
-
-## Scope and limitations
-
-I want to be clear about what this is:
-
-- **Question content is a seed set.** There are 8 original questions per subject (12 for Calculus BC), 220 in total. The 20 tests per subject are built from those pools, so tests overlap. The data layer is designed so a full bank can be dropped in or generated later.
-- **"Similar questions" is topic-based.** Custom practice picks other questions on the same topic that the student hasn't missed. It does not generate new variants. A production version would need an authoring pipeline or an LLM to do that.
-- **Course video, tutors and the consultant contact are placeholders.** The trial lesson player is a demo, the tutors are fictional, and the contact form saves requests locally and opens a `mailto:` link.
-- **No accounts or sync.** Clearing browser data clears progress, which is why the Hub offers an export.
-
-## Disclaimer
-
-AP® and Advanced Placement® are registered trademarks of the College Board, which is not affiliated with and does not endorse this project. All practice questions are original and are not actual exam questions.
-
-## About
-
-Designed and built by **Daniel Long**, M.S. Human-Computer Interaction and M.A. Applied Linguistics, Carnegie Mellon University.
+**Designed and built by [Daniel Long](https://daniel7long.com)** · M.S. Human-Computer Interaction, Carnegie Mellon University
